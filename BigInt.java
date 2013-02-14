@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class BigInt {
 
-  private String val;
+	private String val;
 	public BigInt(String val){
 	this.val=val;	
 	toString();
@@ -160,7 +160,70 @@ public BigInt add(BigInt bi){
 	return new BigInt(finalSum);
 }
 
+public BigInt multiply(BigInt bi){
+	int temp = 0;
+	int digit =1;
+	int thisDigit;
+	int biDigit;
+	int multi;
+	int d=1;
+	String finalMulti="";
+	BigInt finalInt= new BigInt("0");
+	if(bi.val.length()<=val.length()){
 		
+		while(bi.val.length()-digit>=0){
+			biDigit = Integer.parseInt(bi.val.substring(bi.val.length()-d,bi.val.length()-d));
+		while(val.length()-digit>=0){
+		 thisDigit = Integer.parseInt(val.substring(val.length()-digit,val.length()-digit));
+	     //biDigit = Integer.parseInt(bi.val.substring(bi.val.length()-digit,bi.val.length()-digit));
+	 
+	     multi = thisDigit*biDigit+temp;
+		 temp = 0;
+	     if(multi>9){
+	    	
+	    	 temp= multi/10;
+	    	 multi=multi%10;
+	     }
+	     
+	    
+	     finalMulti= Integer.toString(multi)+finalMulti;
+		}
+		d++;
+		BigInt finalMultiInt= new BigInt("finalMulti");		
+		finalInt= finalInt.add(finalMultiInt);
+		
+	}
+	}
+	else{
+		while(this.val.length()-digit>=0){
+			thisDigit = Integer.parseInt(val.substring(val.length()-d,bi.val.length()-d));
+		while(bi.val.length()-digit>=0){
+		 biDigit = Integer.parseInt(bi.val.substring(bi.val.length()-digit,bi.val.length()-digit));
+	     //biDigit = Integer.parseInt(bi.val.substring(bi.val.length()-digit,bi.val.length()-digit));
+	 
+	     multi = thisDigit*biDigit+temp;
+		 temp = 0;
+	     if(multi>9){
+	    	
+	    	 temp= multi/10;
+	    	 multi=multi%10;
+	     }
+	     
+	    
+	     finalMulti= Integer.toString(multi)+finalMulti;
+		}
+		d++;
+		BigInt finalMultiInt= new BigInt("finalMulti");		
+		finalInt= finalInt.add(finalMultiInt);
+		
+	}
+			}
+		
+	
+	return finalInt;
+}
+
+	
 	
 	
 }
