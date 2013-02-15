@@ -243,6 +243,24 @@ public BigInt multiply(BigInt bi){
 	return finalInt;
 	*/
 }
+public BigInt multiply(BigInt bi){
+	int multi=0;
+	int temp = 0;
+	int finalMulti = 0;
+	for(int x=0;x<this.val.length()-1;x++){
+		int  thisDigit= Character.digit(this.val.charAt(x), 10);
+		
+		for(int y=0;y<bi.val.length()-1;y++){
+			int  biDigit= Character.digit(bi.val.charAt(y), 10);
+			multi = thisDigit*biDigit; //multi from left to right
+			temp=temp*10+multi; //will the number be too big to calculate by int type?
+			}
+		finalMulti= finalMulti*10+temp;
+	}
+	String s = Integer.toString(finalMulti);
+	return new BigInt(s);
+}
+
 
 	
 	
