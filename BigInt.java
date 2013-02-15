@@ -162,18 +162,28 @@ public BigInt add(BigInt bi){
 
 public BigInt multiply(BigInt bi){
 	
-	
 	int temp = 0;
-	//we only need digit -or- 'd' not both.  They both do the same thing.
-	int d =1;
 	int thisDigit;
 	int biDigit;
-	int multi;
-	String finalMulti="";
+	int tens;
+	int product;
+	String tempProduct="";
 	
-	thisDigit = val.charAt(val.length()-d);
-	biDigit = bi.val.charAt(bi.val.length()-i);
-	
+	//start a multiplication, iterate through digits of caller
+	for(int d = 1;d<val.charAt(val.length());d++){
+		//get current digit for caller
+		thisDigit = val.charAt(val.length()-d);
+		//iterate through digits of parameter
+		for(int i = 1;i<bi.val.charAt(bi.val.length());i++){
+			//get current digit of parameter
+			biDigit = bi.val.charAt(bi.val.length()-i);
+			//multiply current digits 
+			product = thisDigit*biDigit+temp;
+			tempProduct = Integer.toString((product % 10)) + tempProduct;
+			temp = product/10;
+		}
+		
+	}
 	
 	/*
 	 //why would we initialize and define a BigInt here?
