@@ -115,15 +115,15 @@ public BigInt min(BigInt bi){
 	}
 public BigInt add(BigInt bi){
 	int temp = 0;
-	int digit =1;
+	int d =1;
 	int thisDigit;
 	int biDigit;
 	int sum;
 	String finalSum="";
 	if(bi.val.length()<=val.length()){
-		while(val.length()-digit>=0){
-		 thisDigit = Integer.parseInt(val.substring(val.length()-digit,val.length()-digit));
-	     biDigit = Integer.parseInt(bi.val.substring(bi.val.length()-digit,bi.val.length()-digit));
+		while(val.length()-d>=0){
+		 thisDigit = Integer.parseInt(val.substring(val.length()-d,val.length()-d));
+	     biDigit = Integer.parseInt(bi.val.substring(bi.val.length()-d,bi.val.length()-d));
 	     if(biDigit<0){
 	    	 biDigit=0;
 	     }
@@ -139,9 +139,9 @@ public BigInt add(BigInt bi){
 		}
 	}
 	else{
-		while(bi.val.length()-digit>=0){
-			 thisDigit = Integer.parseInt(val.substring(val.length()-digit,val.length()-digit));
-		     biDigit = Integer.parseInt(bi.val.substring(bi.val.length()-digit,bi.val.length()-digit));
+		while(bi.val.length()-d>=0){
+			 thisDigit = Integer.parseInt(val.substring(val.length()-d,val.length()-d));
+		     biDigit = Integer.parseInt(bi.val.substring(bi.val.length()-d,bi.val.length()-d));
 		     if(thisDigit<0){
 		    	 thisDigit=0;
 		     }
@@ -161,13 +161,23 @@ public BigInt add(BigInt bi){
 }
 
 public BigInt multiply(BigInt bi){
+	
+	
 	int temp = 0;
-	int digit =1;
+	//we only need digit -or- 'd' not both.  They both do the same thing.
+	int d =1;
 	int thisDigit;
 	int biDigit;
 	int multi;
-	int d=1;
 	String finalMulti="";
+	
+	thisDigit = val.charAt(val.length()-d);
+	biDigit = bi.val.charAt(bi.val.length()-i);
+	
+	
+	/*
+	 //why would we initialize and define a BigInt here?
+	  * 
 	BigInt finalInt= new BigInt("0");
 	if(bi.val.length()<=val.length()){
 		
@@ -221,6 +231,7 @@ public BigInt multiply(BigInt bi){
 		
 	
 	return finalInt;
+	*/
 }
 
 	
