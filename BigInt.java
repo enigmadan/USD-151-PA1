@@ -323,6 +323,7 @@ public BigInt multiply(BigInt bi){
 			
 			}
 		finalMulti= finalMulti*10+temp;
+		temp = 0;
 		//first time through we get 52338 from 0 + 52338
 		//second time through we get 95953 from 523380 + 43615
 		//third time through we get 157014 from 95953 + 61061
