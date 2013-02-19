@@ -1,18 +1,30 @@
 import java.util.Scanner;
 
-
+/**
+ * 
+ * @author
+ *
+ */
 public class BigInt {
 
 	private String val;
-	
+
+	/**
+	 * 
+	 * @param String s
+	 */
 	public BigInt(String s){
-			this.val=s;
-			//toString();
+		this.val=s;
 	}
+	
+	/**
+	 * 
+	 */
 	public void biPrint(){
 		System.out.println(val);
 	}
 	
+//this doesn't currently work
 	public String toString(){
 		Scanner sc = new Scanner(val);
 		sc.useDelimiter("");
@@ -33,7 +45,7 @@ public class BigInt {
 
 		}
 		else{
-			val.substring(remove);
+			val = val.substring(remove);
 		}
 		return val;
 
@@ -60,79 +72,101 @@ return "0";
 }
 		 */
 	}
+	
+	
+	/**
+	 * 
+	 * @param BigInt bi
+	 * @return
+	 */
 	public BigInt max(BigInt bi){
 
 		int l1= this.val.length();
 		int l2 = bi.val.length();
-		if(l1>l2){
-			return this;
-		}
-		else if(l1<l2){
+
+		if(l1<l2){
 			return bi;
 		}
-		else{
-			int temp = 0;
-			while(val.charAt(temp)==bi.val.charAt(temp)){
-				temp++;
-				if(temp>l1){
-					return this;
+		else if(l1>l2){
+			return this;
+		}
+		else{			
+			for(int i = 0;i < l1;i++){
+			
+				int thisDigit = Character.digit(val.charAt(i),10);
+				int biDigit = Character.digit(bi.val.charAt(i),10);
+			
+				if(thisDigit<biDigit){
+					return bi;
+				}
+				else if(thisDigit>biDigit){
+					break;
 				}
 			}
-			int thisDigit = Character.digit(val.charAt(temp),10);
-			int biDigit= Character.digit(bi.val.charAt(temp),10);
-			if(thisDigit>biDigit){
-				return this;
-			}
-			else{
-				return bi;
-			}
+			return this;
 		}
 	}
-	
+
+	/**
+	 * 
+	 * @param BigInt bi
+	 * @return the smaller of two BigInt
+	 */
 	public BigInt min(BigInt bi){
 
 		int l1= this.val.length();
 		int l2 = bi.val.length();
-		
+
 		if(l1>l2){
 			return bi;
 		}
 		else if(l1<l2){
 			return this;
 		}
-		else{
-			int temp = 0;
-			while(val.charAt(temp)==bi.val.charAt(temp)){
-				temp++;
-				if(temp>l1){
-					return this;
+		else{			
+			for(int i = 0;i < l1;i++){
+			
+				int thisDigit = Character.digit(val.charAt(i),10);
+				int biDigit = Character.digit(bi.val.charAt(i),10);
+			
+				if(thisDigit>biDigit){
+					return bi;
+				}
+				else if(thisDigit<biDigit){
+					break;
 				}
 			}
-			int thisDigit = Character.digit(val.charAt(temp),10);
-			int biDigit= Character.digit(bi.val.charAt(temp),10);
-			if(thisDigit>biDigit){
-				return bi;
-			}
-			else{
-				return this;
-			}
+			return this;
 		}
 	}
+	
+	/**
+	 * 
+	 * @param BigInt bi
+	 * @return
+	 */
 	public BigInt add(BigInt bi){
-		
+
 		String s1 = this.val;
 		String s2 = bi.val;
+		
 		return new BigInt(addS(s1, s2));
-		
 	}
+	
+	/**
+	 * 
+	 * @param String s1
+	 * @param String s2
+	 * @return
+	 */
 	private static String addS(String s1, String s2){
-		
+
 		int temp = 0;
 		int thisDigit;
 		int biDigit;
 		int sum;
 		String finalSum="";
-		
+
 		if(s2.length()<=s1.length()){
 			for(int d=1;s1.length()-d>=0;d++){
 				if(!(s2.length()-d<0)){
@@ -169,26 +203,27 @@ return "0";
 		}
 		return finalSum;
 	}
-	
+
+
 	/**
 	 * 
-	 * 
+	 * @param BigInt bi
+	 * @return
 	 */
-	
 	public BigInt multiply(BigInt bi){
-		
+
 		int multi=0;
 		String tempS = "0";
 		String finalMulti = "0";
-		
+
 		for(int x=0;x<this.val.length();x++){
-			
+
 			int thisDigit = Character.digit(this.val.charAt(x), 10);
 
 			for(int y=0;y<bi.val.length();y++){
-				
+
 				int biDigit= Character.digit(bi.val.charAt(y), 10);
-				
+
 				multi = thisDigit*biDigit; //multi from left to right
 				tempS=addS(String.valueOf(multi),tempS+"0"); //will the number be too big to calculate by int type?
 			}
