@@ -160,7 +160,9 @@ public BigInt add(BigInt bi){
 	return new BigInt(finalSum);
 }
 
-public BigInt multiply(BigInt bi){
+
+//My silly attempt
+/*public BigInt multiply(BigInt bi){
 	
 	int temp = 0;
 	int thisDigit;
@@ -183,7 +185,7 @@ public BigInt multiply(BigInt bi){
 			temp = product/10;
 		}
 		
-	}
+	}*/
 	
 	/*
 	 //why would we initialize and define a BigInt here?
