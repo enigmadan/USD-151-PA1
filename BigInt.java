@@ -2,7 +2,8 @@ import java.util.Scanner;
 
 /**
  * 
- * @author
+ * @author Mingyu Chen
+ * @author Daniel Myers
  *
  */
 public class BigInt {
@@ -20,13 +21,8 @@ public class BigInt {
 	/**
 	 * 
 	 */
-	public void biPrint(){
-		System.out.println(val);
-	}
-	
-//this doesn't currently work
 	public String toString(){
-		Scanner sc = new Scanner(val);
+		/*Scanner sc = new Scanner(val);
 		sc.useDelimiter("");
 		int length = val.length();
 		int remove = 0;
@@ -47,6 +43,8 @@ public class BigInt {
 		else{
 			val = val.substring(remove);
 		}
+		*/
+		
 		return val;
 
 		/*Char[] a =new Character[];
