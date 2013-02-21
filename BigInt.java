@@ -1,7 +1,5 @@
-import java.util.Scanner;
-
 /**
- * 
+ *
  * @author Mingyu Chen
  * @author Daniel Myers
  *
@@ -11,40 +9,61 @@ public class BigInt {
 	private String val;
 
 	/**
-	 * 
+	 *
 	 * @param String s
 	 */
 	public BigInt(String s){
-		this.val=s;
+		this.val=reduce(s);
 	}
 	
-	/**
-	 * 
-	 */
-	public String toString(){
-		/*Scanner sc = new Scanner(val);
-		sc.useDelimiter("");
-		int length = val.length();
+	private String reduce(String s){
+		
 		int remove = 0;
-		while(sc.hasNext()){
-			if(sc.next()!="0")
+		
+		while(remove<s.length()){
+			if(s.charAt(remove)!='0')
 			{
 				break;
 			}
-
 			remove++;
-
 		}
-		if(length==remove)
+		if(s.length()==remove)
 		{
-			val = "0";
-
+			s = "0";
 		}
 		else{
-			val = val.substring(remove);
+			s = s.substring(remove);
 		}
-		*/
-		
+		return s;
+	}
+
+	/**
+	 *
+	 */
+	public String toString(){
+		/*Scanner sc = new Scanner(val);
+sc.useDelimiter("");
+int length = val.length();
+int remove = 0;
+while(sc.hasNext()){
+if(sc.next()!="0")
+{
+break;
+}
+
+remove++;
+
+}
+if(length==remove)
+{
+val = "0";
+
+}
+else{
+val = val.substring(remove);
+}
+		 */
+
 		return val;
 
 		/*Char[] a =new Character[];
@@ -70,10 +89,10 @@ return "0";
 }
 		 */
 	}
-	
-	
+
+
 	/**
-	 * 
+	 *
 	 * @param BigInt bi
 	 * @return
 	 */
@@ -88,12 +107,12 @@ return "0";
 		else if(l1>l2){
 			return this;
 		}
-		else{			
+		else{	
 			for(int i = 0;i < l1;i++){
-			
+
 				int thisDigit = Character.digit(val.charAt(i),10);
 				int biDigit = Character.digit(bi.val.charAt(i),10);
-			
+
 				if(thisDigit<biDigit){
 					return bi;
 				}
@@ -106,7 +125,7 @@ return "0";
 	}
 
 	/**
-	 * 
+	 *
 	 * @param BigInt bi
 	 * @return the smaller of two BigInt
 	 */
@@ -121,12 +140,12 @@ return "0";
 		else if(l1<l2){
 			return this;
 		}
-		else{			
+		else{	
 			for(int i = 0;i < l1;i++){
-			
+
 				int thisDigit = Character.digit(val.charAt(i),10);
 				int biDigit = Character.digit(bi.val.charAt(i),10);
-			
+
 				if(thisDigit>biDigit){
 					return bi;
 				}
@@ -137,9 +156,9 @@ return "0";
 			return this;
 		}
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param BigInt bi
 	 * @return
 	 */
@@ -147,12 +166,12 @@ return "0";
 
 		String s1 = this.val;
 		String s2 = bi.val;
-		
+
 		return new BigInt(addS(s1, s2));
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param String s1
 	 * @param String s2
 	 * @return
@@ -204,7 +223,7 @@ return "0";
 
 
 	/**
-	 * 
+	 *
 	 * @param BigInt bi
 	 * @return
 	 */
