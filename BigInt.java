@@ -249,4 +249,20 @@ return "0";
 		}
 		return new BigInt(finalMulti);
 	}
+	public  static String printProb(BigInt b1, Character op, BigInt b2 ){
+		BigInt result = new BigInt("");
+		if(op=='+'){
+			result = b1.add(b2);
+				}
+		if(op=='*'){
+			result = b1.multiply(b2);
+				}
+		if(op=='>'){
+			result = b1.max(b2);
+				}
+		if(op=='<'){
+			result = b1.min(b2);
+				}
+		return(b1+" "+op+" "+b2+" "+"="+" "+result);
+	}
 }
