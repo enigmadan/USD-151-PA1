@@ -22,8 +22,11 @@ public class testr {
                 BigInt bi2 = new BigInt(s.next());
                 pw.println(BigInt.printProb(bi1, operator, bi2));
             }
-
+            src.close();
+            pw.close();
+            s.close();
         }
+
         catch(IOException e){
             System.err.println("The file '"+args[0]+"' could not be opened for reading.");
             System.exit(1);
