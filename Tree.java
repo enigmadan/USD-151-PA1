@@ -171,7 +171,7 @@ class TreeComponent extends JComponent
         }
     }
     public void drawFractalTree(Graphics2D g2){
-       
+   /*    
         drawLine(g2, currentLevelOfRecursion, p1, p2, 1);
     }
    
@@ -195,7 +195,7 @@ class TreeComponent extends JComponent
             }
         }
         g2.draw(new Line2D.Double(p1, p2));
-
+*/
     }
    
     // Private fields.
