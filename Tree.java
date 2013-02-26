@@ -171,31 +171,7 @@ class TreeComponent extends JComponent
         }
     }
     public void drawFractalTree(Graphics2D g2){
-   /*    
-        drawLine(g2, currentLevelOfRecursion, p1, p2, 1);
-    }
-   
-   
-    public void drawLine(Graphics2D g2, int n, Point2D p1, Point2D p2, int level)
-    {
-        double hyp = size * Math.pow(lengthScaleFactor, level);
-        double imRad = (branchAngle) * Math.PI / 180;
 
-        if (n != 0)
-        {
-            for(int i = 1;i <= numBranches;i++){
-
-                Point2D pA = new Point2D.Double(p1.getX() + (i * (p2.getX() - p1.getX()) / (numBranches + 1)),
-                        p1.getY() + (i * (p2.getY() - p1.getY()) / (numBranches + 1)));
-               
-                Point2D pB = new Point2D.Double(pA.getX() + Math.sin((i % 2 == 0 ? -1 : 1) * imRad) * hyp,
-                        pA.getY() - Math.cos((i % 2 == 0 ? -1 : 1) * imRad) * hyp);
-               
-                drawLine(g2, n-1, pA, pB, level++);
-            }
-        }
-        g2.draw(new Line2D.Double(p1, p2));
-*/
     }
    
     // Private fields.
