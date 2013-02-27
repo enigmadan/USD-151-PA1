@@ -1,9 +1,9 @@
 /**
- * File: Tree.java
- * @author
- * @version
- * Description: Class to display a Tree fractal.
- */
+* File: Tree.java
+* @author
+* @version
+* Description: Class to display a Tree fractal.
+*/
 
 import java.util.*;
 import java.awt.*;
@@ -17,31 +17,31 @@ import java.io.*;
 import javax.imageio.ImageIO;
 
 /**
- * Main class to get user input and get everything started.
- */
+* Main class to get user input and get everything started.
+*/
 public class Tree
 {
     public static void main(String[] args)
     {
         /*// Get user parameters.
-        Scanner keyboardInput = new Scanner(System.in);
-        System.out.println("Enter length of central trunk, "
-                + "as an integer number of pixels: ");
-        final int size = keyboardInput.nextInt();
-        System.out.println("Enter depth of recursion "
-                + "(0 represents just drawing the triangle): ");
-        final int maxLevelsOfRecursion = keyboardInput.nextInt();
-        System.out.println("Enter number of branches per branch: ");
-        final int numBranches = keyboardInput.nextInt();
-        System.out.println("Enter length of subbranch as a "
-                + "fraction of the length of its parent: ");
-        final double lengthScaleFactor = keyboardInput.nextDouble();
-        System.out.println("Enter the angle that a subbranch "
-                + "makes with its parent: ");
-        final double branchAngle = keyboardInput.nextDouble();
-        System.out.println("Print files (1) or not (0): ");
-        final int printFiles = keyboardInput.nextInt();
-        */
+Scanner keyboardInput = new Scanner(System.in);
+System.out.println("Enter length of central trunk, "
++ "as an integer number of pixels: ");
+final int size = keyboardInput.nextInt();
+System.out.println("Enter depth of recursion "
++ "(0 represents just drawing the triangle): ");
+final int maxLevelsOfRecursion = keyboardInput.nextInt();
+System.out.println("Enter number of branches per branch: ");
+final int numBranches = keyboardInput.nextInt();
+System.out.println("Enter length of subbranch as a "
++ "fraction of the length of its parent: ");
+final double lengthScaleFactor = keyboardInput.nextDouble();
+System.out.println("Enter the angle that a subbranch "
++ "makes with its parent: ");
+final double branchAngle = keyboardInput.nextDouble();
+System.out.println("Print files (1) or not (0): ");
+final int printFiles = keyboardInput.nextInt();
+*/
 
         // Get everything going.
         // Get user parameters.
@@ -67,24 +67,24 @@ public class Tree
 }
 
 /**
- * A frame containing a panel to display the Koch snowflake.
- */
+* A frame containing a panel to display the Koch snowflake.
+*/
 class TreeFrame extends JFrame
 {
     /** Initialize the frame that will contain the Koch snowflake.
-     * @param size The length of the triangle sides.
-     * @param maxLevelsOfRecursion The number of levels of recursion to
-     *         to use in displaying the Koch snowflake.  (If this parameter
-     *         is 0, just the triangle is displayed.
-     * @param numBranches The number of subbranches to draw off of each
-     *         branch.
-     * @param lengthScaleFactor The length of each subranch, as a fraction
-                 of the length of the branch it is coming off of.
-     * @param branchAngle The angle each subbranch makes with the branch
-     *         it is coming off of.
-     * @param printFiles 1 if jpeg files containing the fractal images
-     *         should be drawn, and 0 if not.
-     */
+* @param size The length of the triangle sides.
+* @param maxLevelsOfRecursion The number of levels of recursion to
+* to use in displaying the Koch snowflake. (If this parameter
+* is 0, just the triangle is displayed.
+* @param numBranches The number of subbranches to draw off of each
+* branch.
+* @param lengthScaleFactor The length of each subranch, as a fraction
+of the length of the branch it is coming off of.
+* @param branchAngle The angle each subbranch makes with the branch
+* it is coming off of.
+* @param printFiles 1 if jpeg files containing the fractal images
+* should be drawn, and 0 if not.
+*/
     public TreeFrame(int size, int maxLevelsOfRecursion, int numBranches,
             double lengthScaleFactor, double branchAngle, int printFiles)
     {
@@ -101,24 +101,24 @@ class TreeFrame extends JFrame
 }
 
 /**
- * A component with operations to display the Koch snowflake.
- */
+* A component with operations to display the Koch snowflake.
+*/
 class TreeComponent extends JComponent
 {
     /** Initialize the component that will contain the Koch snowflake.
-     * @param size The length of the triangle sides.
-     * @param maxLevelsOfRecursion The number of levels of recursion to
-     *         to use in displaying the Koch snowflake.  (If this parameter
-     *         is 0, just the triangle is displayed.
-     * @param numBranches The number of subbranches to draw off of each
-     *         branch.
-     * @param lengthScaleFactor The length of each subranch, as a fraction
-                 of the length of the branch it is coming off of.
-     * @param branchAngle The angle each subbranch makes with the branch
-     *         it is coming off of.
-     * @param printFiles true if jpeg files containing the fractal images
-     *         should be drawn.
-     */
+* @param size The length of the triangle sides.
+* @param maxLevelsOfRecursion The number of levels of recursion to
+* to use in displaying the Koch snowflake. (If this parameter
+* is 0, just the triangle is displayed.
+* @param numBranches The number of subbranches to draw off of each
+* branch.
+* @param lengthScaleFactor The length of each subranch, as a fraction
+of the length of the branch it is coming off of.
+* @param branchAngle The angle each subbranch makes with the branch
+* it is coming off of.
+* @param printFiles true if jpeg files containing the fractal images
+* should be drawn.
+*/
     public TreeComponent(int size, int maxLevelsOfRecursion,
             int numBranches, double lengthScaleFactor,
             double branchAngle, boolean printFiles)
@@ -142,8 +142,8 @@ class TreeComponent extends JComponent
     }
 
     /** Draw the component.
-     * @param g The Graphics object to paint to.
-     */
+* @param g The Graphics object to paint to.
+*/
     public void paintComponent(Graphics g)
     {
         // Draw the Tree Fractal.
@@ -188,13 +188,17 @@ class TreeComponent extends JComponent
                 Point2D pA = new Point2D.Double(p1.getX() + (i * (p2.getX() - p1.getX()) / (numBranches + 1)),
                         p1.getY() + (i * (p2.getY() - p1.getY()) / (numBranches + 1)));
                
-                Point2D pB = new Point2D.Double(pA.getX() + Math.sin((i % 2 == 0 ? -1 : 1) * imRad) * hyp,
-                        pA.getY() - Math.cos((i % 2 == 0 ? -1 : 1) * imRad) * hyp);
+                Point2D pB = new Point2D.Double(pA.getX() + Math.sin(Math.atan(Math.abs((p2.getX() - p1.getX())/(p2.getY()-p1.getY()))) + (i % 2 == 0 ? -1 : 1) * imRad) * hyp,
+                        pA.getY() - Math.cos(Math.atan(Math.abs((p2.getX() - p1.getX())/(p2.getY()-p1.getY()))) + (i % 2 == 0 ? -1 : 1) * imRad) * hyp);
                
                 drawLine(g2, n-1, pA, pB, level++);
+
             }
+
         }
         g2.draw(new Line2D.Double(p1, p2));
+
+    }
     // Private fields.
     private int currentLevelOfRecursion;
     private final int size;
@@ -211,16 +215,16 @@ class TreeComponent extends JComponent
     private final Point2D p2;
 
     /** Class to handle mouse events.
-     */
+*/
     private class MouseHandler extends MouseAdapter
     {
         /**
-         * Update the current levels of recursion.  If a single click, then
-         * increment current levels by one, unless it is already the max level,
-         * and then reset to 0.  If a double click, jump to max levels
-         * of recursion.  Then redraw the Koch snowflake.
-         * @param event The mouse event.
-         */
+* Update the current levels of recursion. If a single click, then
+* increment current levels by one, unless it is already the max level,
+* and then reset to 0. If a double click, jump to max levels
+* of recursion. Then redraw the Koch snowflake.
+* @param event The mouse event.
+*/
         public void mouseClicked(MouseEvent event)
         {
             if (event.getClickCount() == 1)
