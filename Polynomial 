@@ -1,0 +1,25 @@
+
+public interface Polynomial {
+  int getCoefficient(int power);
+	//Returns the coefficient of the term
+	//with the specified power. If there is no term in the polynomial with this power, 0
+	//should be returned.
+	void setCoefficient(int coef, int power);
+	//Sets the coefficient of
+	//the term with the specified power to the specified value, overwriting any existing
+	//coefficient of the same power.
+	void addCoefficient(int coef, int power);
+	//Adds the specified
+	//coefficient to the existing coefficient of the specified term (creating a new term if
+		//	there is no existing term)
+	String toString();
+	//Returns a string representation of the polynomial.
+	//Example: 3 * x^2 - 2 * x + 1. Terms should be shown from largest to smallest,
+	//and only terms with nonzero coefficients should be shown.
+	double evaluate(double x);
+	//Evaluates the polynomial for the value x
+	//and returns that value.
+	Polynomial add(Polynomial p);
+	//Adds the calling polynomial to the
+	//parameter polynomial, returning the result.
+}
