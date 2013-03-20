@@ -1,0 +1,173 @@
+
+public class PolynomialLinkedA implements Polynomial {
+  //private field
+	private PolyNode head;
+	/**
+	 * Default constructor
+	 */
+	public PolynomialLinkedA(){
+		head = null;
+		}
+	
+	/**
+	 * get the coefficient of the term with the specified power
+	 * @param power The power of the specified coefficient
+	 * @return the coefficient of the specified power
+	 */
+	public int getCoefficient(int power){
+		PolyNode curr = head;
+		if(curr==null){
+			return 0;
+		}
+		else{
+			while(curr!=null){
+		
+		   if(power==curr.power)
+			return curr.coef;
+		
+		   else
+			curr=curr.next;
+	}
+			return 0;
+		}
+	}
+	/**
+	 * Sets the coefficient of the term with the specified power to the specified value
+	 * @param coef The value of coefficient to set
+	 * @param power The power to set the coefficient
+	 */
+	public void setCoefficient(int coef, int power){
+		PolyNode curr = head;
+	
+			while(curr!=null){
+		
+		if(power==curr.power)
+		curr.coef= coef;
+		else
+			curr=curr.next;
+		
+	}	
+	}
+	/**
+	 * Adds the specified coefficient to the existing coefficient of the specified term
+	 * @param coef The value of coefficient to add
+	 * @param power The power to add the coefficient
+	 */
+	
+	public void addCoefficient(int coef, int power){
+		PolyNode curr = head;
+	if(head==null){
+		head = new PolyNode(power, coef,null);
+	}
+	else if(head.power<power){
+		head = new PolyNode(power,coef,head);
+	}
+	else{
+		while(curr!=null){
+			
+			if(power==curr.power){
+			curr.coef+= coef;
+			return;
+			}
+			else if (power<curr.power&&power>curr.next.power){//if the power is less than the last one，does it work? 
+				
+			PolyNode temp = curr.next;
+			curr.next =  new PolyNode(power, coef,temp);
+			return;
+			}
+			else{
+				curr=curr.next;
+			}
+		}	
+		
+	}
+	
+
+		
+	}
+	/**
+	 * print the polynomial
+	 * @return  a string representation of the polynomial
+	 */
+	
+	public String toString(){
+		PolyNode curr = head;
+		String poly="";
+		while(curr!=null){
+			poly = poly +""+"+"+""+ curr.coef+""+"*"+""+"x"+"^"+curr.power;
+			curr=curr.next;
+		}
+		return poly;
+	}
+	
+	/**
+	 * Evaluates the polynomial for the value x
+	 * @param x The value used to evaluate the polynomial
+	 * @return The value of the polynomial
+	 */
+	
+	public double evaluate(double x){
+		PolyNode curr = head;
+		double result=0;
+	
+		while(curr!=null){
+		
+			result = result + curr.coef*Math.pow(x, curr.power);
+			curr=curr.next;
+		}
+		return result;
+		
+	}
+	
+	
+	/**
+	 * Add the calling polynomial to the parameter polynomial
+	 * @param p The polynomial used to add the calling polynomial
+	 * @return The sum of two polynomials
+	 */
+	
+	
+	public Polynomial add(Polynomial p){
+    PolynomialLinkedA p2 = (PolynomialLinkedA) p;  
+	PolyNode curr1 = this.head;
+      PolyNode curr2 = p2.head;
+		
+		while(curr2!=null){
+	 
+	if(curr2.power==curr1.power){
+		curr1.coef+=curr2.coef;
+		curr2=curr2.next;
+		curr1=curr1.next;	
+	}
+	
+	else if (curr2.power<curr1.power&&curr2.power>curr1.next.power){	
+	curr1.next =  new PolyNode(curr2.power, curr2.coef,curr1.next);
+	curr2=curr2.next;	
+	}
+	else{
+	curr2=curr2.next;	
+	curr1=curr1.next;
+	}
+}	
+		return this;
+	}
+	
+	
+	public static class PolyNode{
+		private int power;
+		private int coef;
+		private PolyNode next;
+		public PolyNode(int newPower, int newCoef,PolyNode nextNode){
+			if(newCoef!=0){
+			power = newPower;
+			coef = newCoef;
+			next = nextNode;	
+			}
+		}
+		public PolyNode(int newPower, int newCoef){
+			this(newPower, newCoef,null);
+		}
+		
+	}
+
+}
