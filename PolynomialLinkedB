@@ -1,0 +1,146 @@
+
+
+
+import java.util.LinkedList;
+import java.util.ListIterator;
+
+public class PolynomialLinkedB {
+
+  		// Private field.
+		private LinkedList<Power> list;
+		
+		/**
+		 * Default constructor.
+		 */
+		public PolynomialLinkedB() {
+			list = new LinkedList<Power>();
+		}
+		
+		public int getCoefficient(int power){
+			ListIterator<Power> iter = list.listIterator();
+			while(iter.hasNext()){
+				Power currPower = iter.next();
+				if(currPower.num==power){
+					return currPower.coef;
+				}
+			}
+			return 0;
+		}
+		
+		public void setCoefficient(int coef, int power){
+			ListIterator<Power> iter = list.listIterator();
+		    if(list.size()==0){
+		    	iter.add(new Power(power,coef));
+		    }
+			while(iter.hasNext()){
+				Power currPower = iter.next();
+				if(currPower.num==power){
+				 currPower.coef=coef;
+				 return;
+				}
+			}
+		}
+		
+		
+		public void addCoefficient(int coef, int power){
+			ListIterator<Power> iter = list.listIterator();
+			
+			while(iter.hasNext()){
+				Power currPower = iter.next();
+				if(currPower.num==power){
+					currPower.coef+=coef;
+					return;
+				}
+				else if (currPower.num>power){ 
+					}
+				else{
+					iter.previous();
+					iter.add(new Power(power,coef));
+					return;
+				}
+			}
+				
+			}
+		
+		public String toString(){
+			ListIterator<Power> iter = list.listIterator();
+			String poly="";
+			while(iter.hasNext()){
+				Power currPower = iter.next();
+				poly = poly +""+"+"+""+ currPower.coef+""+"*"+""+"x"+"^"+currPower.num;
+			
+			}
+			return poly;
+		}
+		
+	
+		public double evaluate(double x){
+			ListIterator<Power> iter = list.listIterator();
+			double result=0;
+		
+			while(iter.hasNext()){
+				Power currPower = iter.next();
+				result = result + currPower.coef*Math.pow(x, currPower.num);
+				
+			}
+			return result;
+			
+		}
+		
+		public Polynomial add(Polynomial p){
+		    PolynomialLinkedB p2 = (PolynomialLinkedB) p; 
+		    PolynomialLinkedB p3 = new PolynomialLinkedB(); 
+		    ListIterator<Power> iter1 = list.listIterator();
+		    ListIterator<Power> iter2 = p2.list.listIterator();
+		    ListIterator<Power> iter3 = p3.list.listIterator();  
+				while(iter2.hasNext()&iter1.hasNext()){
+					Power currPower1 = iter1.next();
+					Power currPower2 = iter2.next();
+			if(currPower2.num==currPower1.num){
+				currPower1.coef+=currPower2.coef;
+				iter3.add(currPower1);
+				
+				}
+			
+			else if (currPower2.num<currPower1.num){	
+			iter3.add(currPower1);
+			iter2.previous();
+			}
+			else{
+				iter3.add(currPower2);
+				iter1.previous();
+			}
+		}
+				while (iter1.hasNext()) {
+					iter3.add(iter1.next());
+				}
+				
+
+				while (iter2.hasNext()) {
+					iter2.add(iter2.next());
+				}
+					
+				p2.list.clear();
+				list.clear();
+				
+				return (Polynomial)p3;
+			}
+		
+		
+		
+		
+		
+		
+		private class Power {
+			
+			private int num;
+			private int coef;
+			
+			public Power(int n,int c) {
+				num = n;
+				coef = c;
+			}
+		}
+	}
+
+
