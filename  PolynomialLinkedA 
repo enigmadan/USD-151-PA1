@@ -1,157 +1,193 @@
 
-
-
-import java.util.LinkedList;
-import java.util.ListIterator;
-
-public class PolynomialLinkedB {
-
-			// Private field.
-		private LinkedList<Power> list;
-		
-		/**
-		 * Default constructor.
-		 */
-		public PolynomialLinkedB() {
-			list = new LinkedList<Power>();
+public class PolynomialLinkedA implements Polynomial {
+	//private field
+	private PolyNode head;
+	/**
+	 * Default constructor
+	 */
+	public PolynomialLinkedA(){
+		head = null;
 		}
-		
-		public int getCoefficient(int power){
-			ListIterator<Power> iter = list.listIterator();
-			while(iter.hasNext()){
-				Power currPower = iter.next();
-				if(currPower.num==power){
-					return currPower.coef;
-				}
-			}
+	
+	/**
+	 * get the coefficient of the term with the specified power
+	 * @param power The power of the specified coefficient
+	 * @return the coefficient of the specified power
+	 */
+	public int getCoefficient(int power){
+		PolyNode curr = head;
+		if(curr==null){
 			return 0;
 		}
+		else{
+			while(curr!=null){
 		
-		public void setCoefficient(int coef, int power){
-			ListIterator<Power> iter = list.listIterator();
-			while(iter.hasNext()){
-				Power currPower = iter.next();
-				if(currPower.num==power){
-				 currPower.coef=coef;
-				 return;
-				}
-			}
-		}
+		   if(power==curr.power)
+			return curr.coef;
 		
-		
-		public void addCoefficient(int coef, int power){
-			ListIterator<Power> iter = list.listIterator();
-			if(list.size()==0){
-		    	iter.add(new Power(power,coef));
-		    }
-			while(iter.hasNext()){
-				Power currPower = iter.next();
-				if(currPower.num==power){
-					currPower.coef+=coef;
-					return;
-				}
-				else if (currPower.num<power){ 
-					iter.previous();
-					iter.add(new Power(power,coef));
-					return;
-				}
-			}
-				
-			}
-		
-		public String toString(){
-			ListIterator<Power> iter = list.listIterator();
-			String poly="";
-			while(iter.hasNext()){
-				Power currPower = iter.next();
-				if(currPower.coef<0){
-					int num = currPower.coef*(-1);
-					poly = poly +" "+"-"+" "+ num +" "+"*"+" "+"x"+"^"+currPower.num;
-					}
-					else{
-						poly = poly +" "+"+"+" "+ currPower.coef +" "+"*"+" "+"x"+"^"+currPower.num;	
-					}
-				
-				}
-				
-				
-			return poly;
-		}
-		
-		
-		
-
-		
-		
-		
-	
-		public double evaluate(double x){
-			ListIterator<Power> iter = list.listIterator();
-			double result=0;
-		
-			while(iter.hasNext()){
-				Power currPower = iter.next();
-				result = result + currPower.coef*Math.pow(x, currPower.num);
-				
-			}
-			return result;
-			
-		}
-		
-		public Polynomial add(Polynomial p){
-		    PolynomialLinkedB p2 = (PolynomialLinkedB) p; 
-		    PolynomialLinkedB p3 = new PolynomialLinkedB(); 
-		    ListIterator<Power> iter1 = list.listIterator();
-		    ListIterator<Power> iter2 = p2.list.listIterator();
-		    ListIterator<Power> iter3 = p3.list.listIterator();  
-				while(iter2.hasNext()&iter1.hasNext()){
-					Power currPower1 = iter1.next();
-					Power currPower2 = iter2.next();
-			if(currPower2.num==currPower1.num){
-				currPower1.coef+=currPower2.coef;
-				iter3.add(currPower1);
-				
-				}
-			
-			else if (currPower2.num<currPower1.num){	
-			iter3.add(currPower1);
-			iter2.previous();
-			}
-			else{
-				iter3.add(currPower2);
-				iter1.previous();
-			}
-		}
-				while (iter1.hasNext()) {
-					iter3.add(iter1.next());
-				}
-				
-
-				while (iter2.hasNext()) {
-					iter2.add(iter2.next());
-				}
-					
-				p2.list.clear();
-				list.clear();
-				
-				return (Polynomial)p3;
-			}
-		
-		
-		
-		
-		
-		
-		private class Power {
-			
-			private int num;
-			private int coef;
-			
-			public Power(int n,int c) {
-				num = n;
-				coef = c;
-			}
+		   else
+			curr=curr.next;
+	}
+			return 0;
 		}
 	}
+	/**
+	 * Sets the coefficient of the term with the specified power to the specified value
+	 * @param coef The value of coefficient to set
+	 * @param power The power to set the coefficient
+	 */
+	public void setCoefficient(int coef, int power){
+		PolyNode curr = head;
+	
+			while(curr!=null){
+		
+		if(power==curr.power)
+		curr.coef= coef;
+		else
+			curr=curr.next;
+		
+	}	
+	}
+	/**
+	 * Adds the specified coefficient to the existing coefficient of the specified term
+	 * @param coef The value of coefficient to add
+	 * @param power The power to add the coefficient
+	 */
+	
+	public void addCoefficient(int coef, int power){
+		PolyNode curr = head;
+	if(head==null){
+		head = new PolyNode(power, coef,null);
+	}
+	else if(head.power<power){
+		PolyNode n = new PolyNode(power,coef,head);
+		head = n;
+	}
+	else{
+		while(curr!=null){
+			
+			if(power==curr.power){
+			curr.coef+= coef;
+			return;
+			}
+			else if (power<curr.power&&power>curr.next.power){//if the power is less than the last one，does it work? 
+				
+			PolyNode temp = curr.next;
+			curr.next =  new PolyNode(power, coef,temp);
+			return;
+			}
+			else{
+				curr=curr.next;
+			}
+		}	
+		
+	}
+	
 
+		
+	}
+	/**
+	 * print the polynomial
+	 * @return  a string representation of the polynomial
+	 */
+	
+	public String toString(){
+		PolyNode curr = head;
+		String poly="";
+		while(curr!=null){
+			if(curr.coef<0){
+			int num = curr.coef*(-1);
+			poly = poly +" "+"-"+" "+ num +" "+"*"+" "+"x"+"^"+curr.power;
+			}
+			else{
+				poly = poly +" "+"+"+" "+ curr.coef +" "+"*"+" "+"x"+"^"+curr.power;	
+			}
+			curr=curr.next;
+		}
+		return poly;
+	}
+	
+	/**
+	 * Evaluates the polynomial for the value x
+	 * @param x The value used to evaluate the polynomial
+	 * @return The value of the polynomial
+	 */
+	
+	public double evaluate(double x){
+		PolyNode curr = head;
+		double result=0;
+	
+		while(curr!=null){
+		
+			result = result + curr.coef*Math.pow(x, curr.power);
+			curr=curr.next;
+		}
+		return result;
+		
+	}
+	
+	
+	/**
+	 * Add the calling polynomial to the parameter polynomial
+	 * @param p The polynomial used to add the calling polynomial
+	 * @return The sum of two polynomials
+	 */
+	
+	
+	public Polynomial add(Polynomial p){
+    PolynomialLinkedA p2 = (PolynomialLinkedA) p;  
+	PolyNode curr1 = this.head;
+      PolyNode curr2 = p2.head;
+		
+		while(curr2!=null){
+	 
+	if(curr2.power==curr1.power&&curr1.next==null){
+		curr1.coef+=curr2.coef;
+		curr2=curr2.next;
+		curr1=curr1.next;	
+	}
+	else if(curr1.next==null){
+		if(curr2.power==curr1.power){
+			curr1.coef+=curr2.coef;
+			 curr2=curr2.next;
+		}
+		else{
+	    curr1.next = new PolyNode(curr2.power,curr2.coef,null);
+	    curr2=curr2.next;
+	    curr1=curr1.next;
+		}
+		
+	}
+	
+	else if (curr2.power<curr1.power&&curr2.power>curr1.next.power){
+		PolyNode temp = curr1.next;
+		curr1.next =  new PolyNode(curr2.power, curr2.coef,temp);
+		curr1=curr1.next;
+		curr2=curr2.next;	
+	}
+	else{
+	curr1=curr1.next;
+	}
+}	
+		return this;
+	}
+	
+	
+	public static class PolyNode{
+		private int power;
+		private int coef;
+		private PolyNode next;
+		public PolyNode(int newPower, int newCoef,PolyNode nextNode){
+			if(newCoef!=0){
+			power = newPower;
+			coef = newCoef;
+			next = nextNode;	
+			}
+		}
+		public PolyNode(int newPower, int newCoef){
+			this(newPower, newCoef,null);
+		}
+		
+	}
 
+}
