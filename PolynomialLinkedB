@@ -6,7 +6,7 @@ import java.util.ListIterator;
 
 public class PolynomialLinkedB {
 
-  		// Private field.
+			// Private field.
 		private LinkedList<Power> list;
 		
 		/**
@@ -29,9 +29,6 @@ public class PolynomialLinkedB {
 		
 		public void setCoefficient(int coef, int power){
 			ListIterator<Power> iter = list.listIterator();
-		    if(list.size()==0){
-		    	iter.add(new Power(power,coef));
-		    }
 			while(iter.hasNext()){
 				Power currPower = iter.next();
 				if(currPower.num==power){
@@ -44,16 +41,16 @@ public class PolynomialLinkedB {
 		
 		public void addCoefficient(int coef, int power){
 			ListIterator<Power> iter = list.listIterator();
-			
+			if(list.size()==0){
+		    	iter.add(new Power(power,coef));
+		    }
 			while(iter.hasNext()){
 				Power currPower = iter.next();
 				if(currPower.num==power){
 					currPower.coef+=coef;
 					return;
 				}
-				else if (currPower.num>power){ 
-					}
-				else{
+				else if (currPower.num<power){ 
 					iter.previous();
 					iter.add(new Power(power,coef));
 					return;
@@ -67,11 +64,25 @@ public class PolynomialLinkedB {
 			String poly="";
 			while(iter.hasNext()){
 				Power currPower = iter.next();
-				poly = poly +""+"+"+""+ currPower.coef+""+"*"+""+"x"+"^"+currPower.num;
-			
-			}
+				if(currPower.coef<0){
+					int num = currPower.coef*(-1);
+					poly = poly +" "+"-"+" "+ num +" "+"*"+" "+"x"+"^"+currPower.num;
+					}
+					else{
+						poly = poly +" "+"+"+" "+ currPower.coef +" "+"*"+" "+"x"+"^"+currPower.num;	
+					}
+				
+				}
+				
+				
 			return poly;
 		}
+		
+		
+		
+
+		
+		
 		
 	
 		public double evaluate(double x){
