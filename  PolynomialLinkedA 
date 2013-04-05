@@ -1,4 +1,3 @@
-
 public class PolynomialLinkedA implements Polynomial {
 	//private field
 	private PolyNode head;
@@ -169,7 +168,7 @@ public class PolynomialLinkedA implements Polynomial {
 	curr1=curr1.next;
 	}
 }	
-		return this;
+		return （Polynomial)this;
 	}
 	
 	
