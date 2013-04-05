@@ -1,55 +1,89 @@
+/**
+ * File: PolynomialLinkedB.java
+ * 
+ * @author Mingyu Chen
+ * @author Daniel Myers
+ * @version 4/5/2013
+ * 
+ *          Description: Class to Manipulate Polynomial
+ */
+
+
+
 import java.util.LinkedList;
 import java.util.ListIterator;
 
 public class PolynomialLinkedB implements Polynomial{
 
 	// Private field.
-	private LinkedList<Power> list;
+	private LinkedList<PolyTerm> list;
 
 	/**
 	 * Default constructor.
 	 */
 	public PolynomialLinkedB() {
-		list = new LinkedList<Power>();
+		list = new LinkedList<PolyTerm>();
 	}
+	
+	
+	
+	/**
+	 * get the coefficient of the term with the specified power
+	 * @param power The power of the specified coefficient
+	 * @return the coefficient of the specified power
+	 */
 
 	public int getCoefficient(int power){
-		ListIterator<Power> iter = list.listIterator();
+		ListIterator<PolyTerm> iter = list.listIterator();
 		while(iter.hasNext()){
-			Power currPower = iter.next();
+			PolyTerm currPower = iter.next();
 			if(currPower.num==power){
 				return currPower.coef;
 			}
 		}
 		return 0;
 	}
+	
+	
+	/**
+	 * Sets the coefficient of the term with the specified power to the specified value
+	 * @param coef The value of coefficient to set
+	 * @param power The power to set the coefficient
+	 */
 
 	public void setCoefficient(int coef, int power){
-		ListIterator<Power> iter = list.listIterator();
+		ListIterator<PolyTerm> iter = list.listIterator();
 		if(list.size()==0){
 			System.err.println("No polynomial to overwrite.");
 			return;
 		}
 		while(iter.hasNext()){
-			Power currPower = iter.next();
+			PolyTerm currPower = iter.next();
 			if(currPower.num==power){
 				currPower.coef=coef;
 				return;
 			}
 		}
 	}
-
+	
+	
+	
+	/**
+	 * Adds the specified coefficient to the existing coefficient of the specified term
+	 * @param coef The value of coefficient to add
+	 * @param power The power to add the coefficient
+	 */
 
 	public void addCoefficient(int coef, int power){
-		ListIterator<Power> iter = list.listIterator();
+		ListIterator<PolyTerm> iter = list.listIterator();
 		if(coef == 0){
 			return;
 		}
 		if(list.size()==0){
-			iter.add(new Power(power, coef));
+			iter.add(new PolyTerm(power, coef));
 		}
 		while(iter.hasNext()){
-			Power currPower = iter.next();
+			PolyTerm currPower = iter.next();
 			if(currPower.num == power){
 				if(currPower.coef == -coef){
 					return;
@@ -59,22 +93,29 @@ public class PolynomialLinkedB implements Polynomial{
 			}
 			else if (currPower.num>power){
 				if(!iter.hasNext()){
-					iter.add(new Power(power, coef));
+					iter.add(new PolyTerm(power, coef));
 				}
 			}
 			else{
 				iter.previous();
-				iter.add(new Power(power, coef));
+				iter.add(new PolyTerm(power, coef));
 				return;
 			}
 		}
 
 	}
+	
+	
+	
+	/**
+	 * print the polynomial
+	 * @return  a string representation of the polynomial
+	 */
 
 	public String toString(){
-		ListIterator<Power> iter = list.listIterator();
+		ListIterator<PolyTerm> iter = list.listIterator();
 		String poly="";
-		Power currPower;
+		PolyTerm currPower;
 
 		if(iter.hasNext()){
 			currPower = iter.next();
@@ -112,29 +153,47 @@ public class PolynomialLinkedB implements Polynomial{
 		}
 		return poly;
 	}
-
-
+	
+	
+	
+	
+	
+	/**
+	 * Evaluates the polynomial for the value x
+	 * @param x The value used to evaluate the polynomial
+	 * @return The value of the polynomial
+	 */
+	
 	public double evaluate(double x){
-		ListIterator<Power> iter = list.listIterator();
+		ListIterator<PolyTerm> iter = list.listIterator();
 		double result=0;
 
 		while(iter.hasNext()){
-			Power currPower = iter.next();
+			PolyTerm currPower = iter.next();
 			result = result + currPower.coef*Math.pow(x, currPower.num);
 
 		}
 		return result;
 
 	}
+	
+	
+	
+	
+	/**
+	 * Add the calling polynomial to the parameter polynomial
+	 * @param p The polynomial used to add the calling polynomial
+	 * @return The sum of two polynomials
+	 */
 
 	public Polynomial add(Polynomial p){
 		PolynomialLinkedB p2 = (PolynomialLinkedB) p;
 		PolynomialLinkedB p3 = new PolynomialLinkedB();
-		ListIterator<Power> iter1 = list.listIterator();
-		ListIterator<Power> iter2 = p2.list.listIterator();
-		ListIterator<Power> iter3 = p3.list.listIterator();
-		Power currPower1 = iter1.next();
-		Power currPower2 = iter2.next();
+		ListIterator<PolyTerm> iter1 = list.listIterator();
+		ListIterator<PolyTerm> iter2 = p2.list.listIterator();
+		ListIterator<PolyTerm> iter3 = p3.list.listIterator();
+		PolyTerm currPower1 = iter1.next();
+		PolyTerm currPower2 = iter2.next();
 		while(iter2.hasNext() && iter1.hasNext()){
 			if(currPower2.num == currPower1.num){
 				currPower1.coef += currPower2.coef;
@@ -171,12 +230,12 @@ public class PolynomialLinkedB implements Polynomial{
 		return (Polynomial)p3;
 	}
 
-	private class Power {
+	private class PolyTerm {
 
 		private int num;
 		private int coef;
 
-		public Power(int n,int c) {
+		public PolyTerm(int n,int c) {
 			num = n;
 			coef = c;
 		}
