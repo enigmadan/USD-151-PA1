@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.EmptyStackException;
+import java.util.Iterator;
 import java.util.Scanner;
 import java.util.LinkedList;
 import java.util.Stack;
@@ -8,7 +9,7 @@ import java.util.Stack;
 
 
 public class HPAir {
-  private City [] cities;
+	private City [] cities;
 
 	public HPAir(String cityfile, String flightfile)throws FileNotFoundException{
 
@@ -54,7 +55,7 @@ public class HPAir {
 					s+= ", ";
 				}
 			}
-			s+="\n  ";
+			s+="\n ";
 		}
 		return s;
 	}
@@ -97,7 +98,7 @@ public class HPAir {
 
 		itinerary.add(s);
 		s.visited = true;
-//recursive
+		//recursive
 		if(source == dest){
 			//there is a path return something
 		}else{
@@ -108,10 +109,10 @@ public class HPAir {
 			}
 			return false;
 		}
-		
-		
-		
-//non-recursive
+
+
+
+		//non-recursive
 		while(!itinerary.isEmpty() && itinerary.peek != dest){
 			City curCity = itinerary.peek;
 			if(/*no unvisited cities from curCity remain*/true){
@@ -119,75 +120,86 @@ public class HPAir {
 			}else{
 				City c /* = next unvisited city in curCity*/;
 				s.push(c);
-			
+
+			}
+			//previous code
+			/*for(int i = 0;i<itinerary.peek().flightList.size();i++){
+if(itinerary.peek().flightList.get(i).dest.equals(d)){
+itinerary.add(d);
+return itinerary;
+}
+}
+itinerary.pop();
+for(int i = 0;i<itinerary.peek().flightList.size();i++){
+for(int j = 0;j<itinerary.peek().flightList.get(i).dest.flightList.size();j++){
+City name = itinerary.peek().flightList.get(i).dest.flightList.get(j).dest;
+if(name.equals(d)){
+itinerary.add(d);
+return itinerary;
+}
+}
+}*/
+
 		}
-//previous code
-		/*for(int i = 0;i<itinerary.peek().flightList.size();i++){
-			if(itinerary.peek().flightList.get(i).dest.equals(d)){	
-				itinerary.add(d);	
-				return itinerary;
+
+		private void reset(){
+			//TODO--WRITE RESET
+			//reset returns all City.visited booleans to false
+			for(int i = 0;i<cities.length;i++){
+				cities[i].visited = false;
 			}
 		}
-		itinerary.pop();
-		for(int i = 0;i<itinerary.peek().flightList.size();i++){
-			for(int j = 0;j<itinerary.peek().flightList.get(i).dest.flightList.size();j++){
-				City name = itinerary.peek().flightList.get(i).dest.flightList.get(j).dest;
-				if(name.equals(d)){
-					itinerary.add(d);
-					return itinerary;
+
+		private int getCost(Stack<City> it){
+			//TODO--WRITE GETCOST
+			//getCost returns the total cost of travel from the bottom of a stack to the top
+			Iterator<City> itr = it.iterator();
+			while(itr.hasNext()){
+				City s = itr.next();
+				if(itr.hasNext()){
+					City d = itr.next();
+					
 				}
 			}
-		}*/
-
-	}
-
-	private void reset(){
-	//TODO--WRITE RESET
-	//reset returns all City.visited booleans to false
-	}
-
-	private int getCost(Stack<City> it){
-	//TODO--WRITE GETCOST
-	//getCost returns the total cost of travel from the bottom of a stack to the top
-
-	}
-	
-	/*Test class to find shortest path
-
-	public class Path{
-		public Stack<City> itin;
-		public int cost;
-		
-		public Path(Stack<City> i){
-			itin = i;
-			cost = itin.getCost();
 
 		}
-	}
-	public class City{
-		public String name;
-		public LinkedList<Flight> flightList;
-		public boolean visited;
 
-		public City(String n){
-			name=n;
-			flightList= new LinkedList<Flight>();
-			visited = false
+		/*Test class to find shortest path*/
+
+		public class Path{
+			public Stack<City> itin;
+			public int cost;
+
+			public Path(Stack<City> i){
+				itin = i;
+				cost = getCost(itin);
+
+			}
+		}
+		public class City{
+			public String name;
+			public LinkedList<Flight> flightList;
+			public boolean visited;
+
+			public City(String n){
+				name=n;
+				flightList= new LinkedList<Flight>();
+				visited = false;
+			}
+
+		}
+		public class Flight {
+			public City source;
+			public City dest;
+			public int number;
+			public int cost;
+			public Flight(City s, City d,int n ,int c){
+				source=s;
+				dest=d;
+				number=n;
+				cost=c;
+			}
 		}
 
 	}
-	public class Flight {
-		public City source;
-		public City dest;
-		public int number;
-		public int cost;
-		public Flight(City s, City d,int n ,int c){
-			source=s;
-			dest=d;
-			number=n;
-			cost=c;
-		}
-	}
-
-}
 
