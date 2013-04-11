@@ -1,0 +1,147 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.EmptyStackException;
+import java.util.Scanner;
+import java.util.LinkedList;
+import java.util.Stack;
+
+
+
+public class HPAir {
+  private City [] cities;
+
+	public HPAir(String cityfile, String flightfile)throws FileNotFoundException{
+
+
+		Scanner cityInput = new Scanner(new File(cityfile));
+		Scanner cityInput2 = new Scanner(new File(cityfile));
+		Scanner flightInput = new Scanner(new File(flightfile));
+
+		int counter = 0;
+		while(cityInput.hasNext()){
+			cityInput.nextLine();
+			System.out.println(counter++);
+		}
+		cities = new City[counter];
+		for(int i = 0;cityInput2.hasNext();i++){
+			cities[i]=new City(cityInput2.nextLine().trim());
+
+		}
+		while(flightInput.hasNext()){
+			String line = flightInput.nextLine();
+			Scanner flightData = new Scanner(line);
+			flightData.useDelimiter(",");
+			String sourceName = flightData.next().trim();
+			City source = findCity(sourceName);
+			String destName=flightData.next().trim();
+			City dest = findCity(destName);
+			int flightNumber = Integer.parseInt(flightData.next().trim());
+			int flightCost = Integer.parseInt(flightData.next().trim());
+			System.out.println(flightNumber+" "+flightCost);
+			Flight flight = new Flight(source,dest,flightNumber,flightCost);
+			source.flightList.add(flight);
+
+
+		}
+	}
+	public String toString(){
+		String s = "Flights\n";
+		for(int i = 0;i<cities.length;i++){
+			s += cities[i].name+"\n--------------\n";
+			for(int j = 0;j<cities[i].flightList.size();j++){
+				s += cities[i].flightList.get(j).dest.name;
+				if(j<cities[i].flightList.size()-1){
+					s+= ", ";
+				}
+			}
+			s+="\n  ";
+		}
+		return s;
+	}
+
+	private City findCity(String s){
+		if(cities.length==0){
+			throw new EmptyStackException ();
+
+		}
+
+		for(int i =0;i<cities.length;i++){
+			if(s.equals(cities[i].name)){
+				return cities[i];
+			}
+
+		}
+		return null;
+	}
+	public void fly(String s, String d){
+		System.out.println("Request is to fly from "+s+" to "+d+".\n");
+		if(findCity(s)==null){
+			System.out.println("We currently do not serve "+s);
+			if(findCity(d)==null){
+				System.out.print(" or "+d+".");
+			}
+		}else if(findCity(d)==null){
+			System.out.println("We currently do not serve "+d+".");
+		}else{
+			Stack it = isPath(findCity(s),findCity(d));
+			if(!it.isEmpty()){
+				System.out.println("Sorry, we do not fly from "+s+" to "+d+".");
+			}else{
+
+			}
+		}
+	}
+
+	private Stack isPath(City s, City d){
+		Stack<City> itinerary = new Stack<City>();
+		itinerary.add(s);
+
+		for(int i = 0;i<itinerary.peek().flightList.size();i++){
+			
+			if(itinerary.peek().flightList.get(i).dest.equals(d)){
+				
+				itinerary.add(d);
+				
+				return itinerary;
+			}
+		}
+		
+		itinerary.pop();
+		
+		/*for(int i = 0;i<itinerary.peek().flightList.size();i++){
+			for(int j = 0;j<itinerary.peek().flightList.get(i).dest.flightList.size();j++){
+				City name = itinerary.peek().flightList.get(i).dest.flightList.get(j).dest;
+				if(name.equals(d)){
+					itinerary.add(d);
+					return itinerary;
+				}
+			}*/
+		}
+
+	}
+
+	public class City{
+		public String name;
+		public LinkedList<Flight> flightList;
+
+		public City(String n){
+			name=n;
+			flightList= new LinkedList<Flight>();
+		}
+
+	}
+	public class Flight {
+		public City source;
+		public City dest;
+		public int number;
+		public int cost;
+		public Flight(City s, City d,int n ,int c){
+			source=s;
+			dest=d;
+			number=n;
+			cost=c;
+		}
+	}
+
+}
+
