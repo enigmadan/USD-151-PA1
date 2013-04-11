@@ -1,0 +1,14 @@
+import java.io.FileNotFoundException;
+
+
+public class Map {
+  public static void main(String[] args){
+		try{
+			HPAir map = new HPAir(args[0],args[1]);
+			System.out.println(map);
+		}
+		catch(FileNotFoundException e){
+
+		}
+	}
+}
