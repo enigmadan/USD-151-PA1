@@ -94,39 +94,85 @@ public class HPAir {
 
 	private Stack isPath(City s, City d){
 		Stack<City> itinerary = new Stack<City>();
-		itinerary.add(s);
 
-		for(int i = 0;i<itinerary.peek().flightList.size();i++){
+		itinerary.add(s);
+		s.visited = true;
+//recursive
+		if(source == dest){
+			//there is a path return something
+		}else{
+			for(/*each unvisited city on source's flightlist*/ int i = 0;i<s.flightList.size();i++){
+				if(isPath(s.flightList.get(i).dest) == true){
+					//there is a path return something
+				}
+			}
+			return false;
+		}
+		
+		
+		
+//non-recursive
+		while(!itinerary.isEmpty() && itinerary.peek != dest){
+			City curCity = itinerary.peek;
+			if(/*no unvisited cities from curCity remain*/true){
+				itinerary.pop();
+			}else{
+				City c /* = next unvisited city in curCity*/;
+				s.push(c);
 			
-			if(itinerary.peek().flightList.get(i).dest.equals(d)){
-				
-				itinerary.add(d);
-				
+		}
+//previous code
+		/*for(int i = 0;i<itinerary.peek().flightList.size();i++){
+			if(itinerary.peek().flightList.get(i).dest.equals(d)){	
+				itinerary.add(d);	
 				return itinerary;
 			}
 		}
-		
 		itinerary.pop();
-		
-		/*for(int i = 0;i<itinerary.peek().flightList.size();i++){
+		for(int i = 0;i<itinerary.peek().flightList.size();i++){
 			for(int j = 0;j<itinerary.peek().flightList.get(i).dest.flightList.size();j++){
 				City name = itinerary.peek().flightList.get(i).dest.flightList.get(j).dest;
 				if(name.equals(d)){
 					itinerary.add(d);
 					return itinerary;
 				}
-			}*/
-		}
+			}
+		}*/
 
 	}
 
+	private void reset(){
+	//TODO--WRITE RESET
+	//reset returns all City.visited booleans to false
+	}
+
+	private int getCost(Stack<City> it){
+	//TODO--WRITE GETCOST
+	//getCost returns the total cost of travel from the bottom of a stack to the top
+
+	}
+	
+	/*Test class to find shortest path
+
+	public class Path{
+		public Stack<City> itin;
+		public int cost;
+		
+		public Path(Stack<City> i){
+			itin = i;
+			cost = itin.getCost();
+
+		}
+	}
 	public class City{
 		public String name;
 		public LinkedList<Flight> flightList;
+		public boolean visited;
 
 		public City(String n){
 			name=n;
 			flightList= new LinkedList<Flight>();
+			visited = false
 		}
 
 	}
