@@ -1,7 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.EmptyStackException;
-import java.util.Iterator;
 import java.util.Scanner;
 import java.util.LinkedList;
 import java.util.Stack;
@@ -10,6 +9,7 @@ import java.util.Stack;
 
 public class HPAir {
 	private City [] cities;
+	private LinkedList<Path> path;
 
 	public HPAir(String cityfile, String flightfile)throws FileNotFoundException{
 
@@ -84,122 +84,106 @@ public class HPAir {
 		}else if(findCity(d)==null){
 			System.out.println("We currently do not serve "+d+".");
 		}else{
-			Stack it = isPath(findCity(s),findCity(d));
-			if(!it.isEmpty()){
+			if(!isPath(findCity(s),findCity(d))){
 				System.out.println("Sorry, we do not fly from "+s+" to "+d+".");
 			}else{
-
+				int num = path.get(0).cost;
+				int k = 0;
+				for(int i = 1;i<path.size();i++){
+					if(num>path.get(i).cost){
+						num = path.get(i).cost;
+						k = i;
+					}
+				}
+				for(int i = 0;i<path.size()-1;i++){
+					Stack<City> cityStack = path.get(k).itin;
+					System.out.println("Flight #"+cityStack.get(i).flightList.get(
+							cityStack.get(i).flightList.indexOf(
+									cityStack.get(i+1))).number+
+							" from "+s+" to "+d+"  Cost: $"+
+							cityStack.get(i).flightList.get(
+									cityStack.get(i).flightList.indexOf(
+											cityStack.get(i+1))).cost);
+				}
+				System.out.println("Total Cost ............. $"+path.get(k).cost);
 			}
+			reset();
 		}
 	}
 
-	private Stack isPath(City s, City d){
+	private boolean isPath(City s, City d){
 		Stack<City> itinerary = new Stack<City>();
 
 		itinerary.add(s);
 		s.visited = true;
+
 		//recursive
-		if(source == dest){
-			//there is a path return something
+		if(s == d){
+			path.add(new Path(itinerary));
+			return true;
 		}else{
-			for(/*each unvisited city on source's flightlist*/ int i = 0;i<s.flightList.size();i++){
-				if(isPath(s.flightList.get(i).dest) == true){
-					//there is a path return something
+			for(int i = 0;i<s.flightList.size();i++){
+				if(s.flightList.get(i).dest.visited == false && isPath(s.flightList.get(i).dest,d) == true){
+
 				}
 			}
+			itinerary.pop();
 			return false;
 		}
+	}
 
+	private void reset(){
+		//reset returns all City.visited booleans to false
+		for(int i = 0;i<cities.length;i++){
+			cities[i].visited = false;
+		}
+	}
 
+	private int getCost(Stack<City> it){
+		//getCost returns the total cost of travel from the bottom of a stack to the top
+		int total = 0;
+		for(int i = 0;i<it.size()-1;i++){
+			total += it.get(i).flightList.get(it.get(i).flightList.indexOf(it.get(i+1))).cost;
+		}
+		return total;
+	}
 
-		//non-recursive
-		while(!itinerary.isEmpty() && itinerary.peek != dest){
-			City curCity = itinerary.peek;
-			if(/*no unvisited cities from curCity remain*/true){
-				itinerary.pop();
-			}else{
-				City c /* = next unvisited city in curCity*/;
-				s.push(c);
+	/*Test class to find shortest path*/
 
-			}
-			//previous code
-			/*for(int i = 0;i<itinerary.peek().flightList.size();i++){
-if(itinerary.peek().flightList.get(i).dest.equals(d)){
-itinerary.add(d);
-return itinerary;
-}
-}
-itinerary.pop();
-for(int i = 0;i<itinerary.peek().flightList.size();i++){
-for(int j = 0;j<itinerary.peek().flightList.get(i).dest.flightList.size();j++){
-City name = itinerary.peek().flightList.get(i).dest.flightList.get(j).dest;
-if(name.equals(d)){
-itinerary.add(d);
-return itinerary;
-}
-}
-}*/
+	public class Path{
+		public Stack<City> itin;
+		public int cost;
+
+		public Path(Stack<City> i){
+			itin = i;
+			cost = getCost(itin);
 
 		}
+	}
+	public class City{
+		public String name;
+		public LinkedList<Flight> flightList;
+		public boolean visited;
 
-		private void reset(){
-			//TODO--WRITE RESET
-			//reset returns all City.visited booleans to false
-			for(int i = 0;i<cities.length;i++){
-				cities[i].visited = false;
-			}
-		}
-
-		private int getCost(Stack<City> it){
-			//TODO--WRITE GETCOST
-			//getCost returns the total cost of travel from the bottom of a stack to the top
-			Iterator<City> itr = it.iterator();
-			while(itr.hasNext()){
-				City s = itr.next();
-				if(itr.hasNext()){
-					City d = itr.next();
-					
-				}
-			}
-
-		}
-
-		/*Test class to find shortest path*/
-
-		public class Path{
-			public Stack<City> itin;
-			public int cost;
-
-			public Path(Stack<City> i){
-				itin = i;
-				cost = getCost(itin);
-
-			}
-		}
-		public class City{
-			public String name;
-			public LinkedList<Flight> flightList;
-			public boolean visited;
-
-			public City(String n){
-				name=n;
-				flightList= new LinkedList<Flight>();
-				visited = false;
-			}
-
-		}
-		public class Flight {
-			public City source;
-			public City dest;
-			public int number;
-			public int cost;
-			public Flight(City s, City d,int n ,int c){
-				source=s;
-				dest=d;
-				number=n;
-				cost=c;
-			}
+		public City(String n){
+			name=n;
+			flightList= new LinkedList<Flight>();
+			visited = false;
 		}
 
 	}
+	public class Flight {
+		public City source;
+		public City dest;
+		public int number;
+		public int cost;
+		public Flight(City s, City d,int n ,int c){
+			source=s;
+			dest=d;
+			number=n;
+			cost=c;
+		}
+	}
+
+}
 
