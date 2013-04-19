@@ -9,8 +9,7 @@ import java.util.Stack;
 
 public class HPAir {
 	private City [] cities;
-	private LinkedList<Path> path = new LinkedList<Path>();
-
+	public LinkedList<Path> path = new LinkedList<Path>();
 
 	public HPAir(String cityfile, String flightfile, String requestfile)throws FileNotFoundException{
 
@@ -70,43 +69,50 @@ public class HPAir {
 		return null;
 	}
 	public void fly(String s, String d){
-		System.out.print("Request is to fly from "+s+" to "+d+".\n");
+	
 		if(findCity(s)==null){
-			System.out.print("We currently do not serve "+s);
+			System.out.print("Sorry. HPAir does not serve "+s);
 			if(findCity(d)==null){
 				System.out.print(" or "+d+".\n\n");
 			}else{
 				System.out.print("\n");
 			}
 		}else if(findCity(d)==null){
-			System.out.println("We currently do not serve "+d+".\n");
+			System.out.println("Sorry. HPAir does not serve "+d+".\n");
 		}else{
 			Stack<City> itinerary = isPath(findCity(s),findCity(d));
 			if(itinerary.isEmpty()){
-				System.out.println("Sorry, we do not fly from "+s+" to "+d+".\n");
+				System.out.print("Sorry. HPAir does not fly from "+s+" to "+d+".\n");
 			}else{
+				System.out.print("Request is to fly from "+s+" to "+d+".\n");
 				Stack<City> reverse = new Stack<City>();
 				while(!itinerary.isEmpty()){
 					reverse.push(itinerary.pop());
 				}
 				int totalCost = 0;
-				for(int i = reverse.size()-1;i>0;i--){
-					totalCost += reverse.get(i).flightList.get(
-							reverse.get(i).flightList.indexOf(
-									reverse.get(i-1))).cost;
-					System.out.println("Flight #"+reverse.get(i).flightList.get(
-							reverse.get(i).flightList.indexOf(
-									reverse.get(i-1))).number+
-									" from "+s+" to "+d+"  Cost: $"+
-									reverse.get(i).flightList.get(
-											reverse.get(i).flightList.indexOf(
-													reverse.get(i-1))).cost);
+				while(!reverse.isEmpty() && reverse.size()>1){
+					City c = reverse.pop();
+					City c2 = reverse.peek();
+					Flight f = findFlight(c,c2);
+					System.out.println("Flight #"+f.number+" from "+f.source.name+" to "+f.dest.name+"   Cost: $"+f.cost);
+					totalCost+=f.cost;
 				}
-				System.out.println("Total Cost ............. $"+totalCost+"\n");
+				System.out.println("Total Cost ..................... $"+totalCost);
+				reset();
 			}
-			reset();
 		}
 	}
+	
+	private static Flight findFlight(City s, City d){
+		for(int i = 0; i<s.flightList.size();i++){
+		  if (s.flightList.get(i).dest == d){
+			  return s.flightList.get(i);
+		  }
+		}
+		  return null;
+	}
+	
+	
 	private Stack<City> isPath(City s, City d){
 		Stack<City> itinerary = new Stack<City>();
 
@@ -118,6 +124,7 @@ public class HPAir {
 				itinerary.pop();
 			}else{
 				City c = curCity.flightList.get(allVisited(curCity)).dest/* = next unvisited city in curCity*/;
+				c.visited = true;
 				itinerary.push(c);
 			}
 		}
@@ -131,6 +138,9 @@ public class HPAir {
 		}
 		return -1;
 	}
+	
+	
+
 
 	private void reset(){
 		//reset returns all City.visited booleans to false
@@ -139,18 +149,28 @@ public class HPAir {
 		}
 	}
 
+	/*Test class to find shortest path*/
+
 	private int getCost(Stack<City> it){
 		//getCost returns the total cost of travel from the bottom of a stack to the top
 		int total = 0;
-		int blah = it.size();
-		for(int i = 0;i<it.size()-1;i++){
-			total += it.get(i).flightList.get(it.get(i).flightList.indexOf(it.get(i+1))).cost;
+		Stack<City> reverse = new Stack<City>();
+		for(int j =1;j<=it.size();j++){
+			reverse.push(it.get(it.size()-j));	
 		}
+		while(!reverse.isEmpty() && reverse.size()>1){
+			City c = reverse.pop();
+			City c2 = reverse.peek();
+			Flight f = findFlight(c,c2);
+			total+=f.cost;
+		}
+		
+
 		return total;
 	}
 
-	/*Test class to find shortest path*/
-
+	
+	
 	public class Path{
 		public Stack<City> itin;
 		public int cost;
@@ -161,6 +181,7 @@ public class HPAir {
 
 		}
 	}
+
 	public class City{
 		public String name;
 		public LinkedList<Flight> flightList;
